@@ -152,40 +152,8 @@
 <br />
 Choose what makes you happy. Choose what is important to you.&nbsp; At the Villas at Sheriden we embrace personal choice and whatever makes you happy! Looking for an elegant but comfortable one-bedroom apartment that is just the right size?&nbsp; We have it!&nbsp; Wanting extra living space, or an additional bedroom for a spouse or partner?&nbsp; Check out our spacious two-bedroom options. Our sales team will meet with you to help you choose the apartment that speaks to you. Schedule an appointment today to dicover the exact floor plan that exemplfies your lifestyle.&nbsp; &nbsp;
 </div>
-<div id="topdiv">
-	<div id="topcontentholder" class="well well-small">
-		<div class="row-fluid">
-			<div class="span5">
-				<div id="div0">
-					<div class="span2" id="div1">
-						 <span id="bedsLabel" class="checkbox"><strong>Refine:</strong></span> 
-						
-					</div>
-					<div class="span10" id="div2">
-						<div class=" inline " id="div3">
-							<ul class="inline form-search" id="TopSearchNewDesign" aria-labelledby="bedsLabel">
-								<li><label class="checkbox " for="1Bed"><input class="check" id="1Bed" name="1" type="checkbox" />1 Bed</label>
-								</li><li><label class="checkbox " for="2Bed"><input class="check" id="2Bed" name="2" type="checkbox" />2 Beds</label>
-								</li>
-							</ul>
-							
-						</div>
-						<button type="button" class="btn btn btn-primary inline m-l-md" name="btnUpdateFilter" id="btnUpdateFilter">Update</button>
-						
-					</div>
-					
-				</div>
-
-			</div><div class="span2 text-right pull-right">
-
-			</div>
-		</div>
-	</div>
-</div><div class="row-fluid hidden" id="divMI">
-	<div class>
-		<label class="sr-only">Move-In Date</label><input id="FltxtMoveInDate" autocomplete="xoff" name="FltxtMoveInDate" type="hidden" class="input-small" placeholder="Move-in-date" value="" class="" value="" />
-	</div>
-	
+<div id="topdiv" class="text-center" style="margin: 20px 0 30px;">
+	<a href="listings.html" class="btn btn-primary btn-large" style="font-size: 18px; padding: 12px 40px;">Browse Available Units</a>
 </div>
 <div class="row-fluid " ><div class="pull-right " id="floor-plan-top-links"><ul class="unstyled"></ul></div></div><div id="floorPlanDataContainer"><ul id='FPListTabs' class="nav nav-tabs " style='display:block;border:0px;'>  <li class='active'><a class='hidden' href="floorplans.html#FPhideMap" data-toggle="tab" style='border:0px;'><b>List View</b></a></li></ul><div class='tab-content' style='overflow: visible;'>  <div id='FPhideMap' class='tab-pane active '><div class="tabbable tabs-left" id="floorplanlist">
     <ul class="nav nav-tabs " role="tablist" id="floorplansLink">
@@ -682,14 +650,6 @@ $("#" + container).html('');
 	if (($('link[href*="ClientCustom"]').length == 1) || (window.location.href.includes('templateName'))) {$('#tagline-style').remove();}
 </script>
 
-	<script language=javascript>		
- $(document).ready(function()
-{
-$('#btnCheck').click(function()
-{
- var names = []; var FloorPlans;
- var propertyid  = 1408371 ; $('#innerformdiv input:checked').each(function() {       FloorPlans = $(this).attr('id').substring(9, $(this).attr('id').length); names.push(FloorPlans); });  $('#FloorPlanContainer').parent().load('/rcLoadContent.ashx?contentclass=availableunits&t=' + Math.random() , {'floorPlans' : names }); return false;}); }); </script>
-                                           <script language=javascript> $(document).ready(function(){$('#btnUpdateFilter').click(function(){ var names = []; var bed; $('#topcontentholder input:checked').each(function() {       bed = $(this).attr('name'); names.push(bed); });  $('#FloorPlanContainer').parent().load('/rcLoadContent.ashx?contentclass=floorplans&t=' + Math.random() + '&Bed=' + names ,{'Bed': names , 'myolePropertyID':1408371}); return false;}); }); </script>
 
 
 <script type="text/javascript">
@@ -866,7 +826,6 @@ $("[data-toggle='popover']").popover({ trigger: 'hover', container: 'body' });
 </script>
 
 
-	<script language=javascript> $(document).ready(function(){$('body').on('click', '#btnUpdateFilter', function (){ var names = []; var bed; $('#TopSearchNewDesign input:checked').each(function() {       bed = $(this).attr('name'); names.push(bed); });  $('#innerformdiv').load('/rcLoadContent.ashx?contentclass=defaultpagefloorplan&MoveInDate=' + $('#FltxtMoveInDate').val() + '&t=' + Math.random() + '&Bed=' + names ,{'Bed': names ,'IsThemeSite': 1 , 'myolePropertyID':1408371}); return false;});$('#btnViewBrochure').click(function(){    $('#floorplanlist div.tab-pane').each( function() {         floorplanIds.push($(this).attr('id').replace('FP_Detail_',''));    });    $(this).attr('href','brochure.aspx?FloorPlanIDs=' + floorplanIds);    return true;}); }); </script>
 
 	<script type="text/javascript">
 $(document).ready(function(){
