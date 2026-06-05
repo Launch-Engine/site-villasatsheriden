@@ -124,6 +124,23 @@
 	height: 110px;
 	resize: vertical;
 }
+.waitlist-form input[type="file"] {
+	width: 100%;
+	padding: 12px 16px;
+	font-size: 14px;
+	font-family: 'Lato', sans-serif;
+	border: 2px dashed #d0d0d0;
+	border-radius: 6px;
+	box-sizing: border-box;
+	background: #fafafa;
+	cursor: pointer;
+	transition: border-color 0.2s;
+}
+.waitlist-form input[type="file"]:hover,
+.waitlist-form input[type="file"]:focus {
+	border-color: #bf8e08;
+	outline: none;
+}
 .waitlist-form .btn-submit {
 	display: block;
 	width: 100%;
@@ -286,6 +303,11 @@
                   </div>
 
                   <div class="control-group">
+                    <label for="wl-photo">Photo ID <span style="font-weight:normal;color:#999;">(optional)</span></label>
+                    <input type="file" id="wl-photo" name="photoId" accept="image/*,.pdf" />
+                  </div>
+
+                  <div class="control-group">
                     <label for="wl-comments">Additional Comments</label>
                     <textarea id="wl-comments" name="comments" placeholder="Any preferences, move-in timeline, or questions..."></textarea>
                   </div>
@@ -380,37 +402,46 @@ $(document).ready(function(){
 		$btn.prop('disabled', true).text('Submitting...');
 		$msg.hide();
 
-		var payload = {
-			name: $('#wl-name').val().trim(),
-			email: $('#wl-email').val().trim(),
-			phone: $('#wl-phone').val().trim(),
-			bedrooms: $('#wl-bedrooms').val(),
-			residents: $('#wl-residents').val(),
-			comments: $('#wl-comments').val().trim()
-		};
+		var nameVal = $('#wl-name').val().trim();
+		var emailVal = $('#wl-email').val().trim();
+		var phoneVal = $('#wl-phone').val().trim();
 
-		if (!payload.name || !payload.email || !payload.phone) {
+		if (!nameVal || !emailVal || !phoneVal) {
 			$msg.removeClass('success').addClass('error')
 				.text('Please fill in all required fields.').show();
-			$btn.prop('disabled', false).text('Submit');
+			$btn.prop('disabled', false).text('Join Waitlist');
 			return;
+		}
+
+		var fd = new FormData();
+		fd.append('name', nameVal);
+		fd.append('email', emailVal);
+		fd.append('phone', phoneVal);
+		fd.append('bedrooms', $('#wl-bedrooms').val());
+		fd.append('residents', $('#wl-residents').val());
+		fd.append('comments', $('#wl-comments').val().trim());
+
+		var photoInput = document.getElementById('wl-photo');
+		if (photoInput.files.length > 0) {
+			fd.append('photoId', photoInput.files[0]);
 		}
 
 		$.ajax({
 			url: '/.netlify/functions/waitlist',
 			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(payload),
+			data: fd,
+			processData: false,
+			contentType: false,
 			success: function(resp) {
 				$msg.removeClass('error').addClass('success')
 					.text('You have been added to the waitlist! Our team will be in touch soon.').show();
 				$('#waitlistForm')[0].reset();
-				$btn.prop('disabled', false).text('Submit');
+				$btn.prop('disabled', false).text('Join Waitlist');
 			},
 			error: function() {
 				$msg.removeClass('success').addClass('error')
 					.text('Something went wrong. Please try again or call us directly.').show();
-				$btn.prop('disabled', false).text('Submit');
+				$btn.prop('disabled', false).text('Join Waitlist');
 			}
 		});
 	});

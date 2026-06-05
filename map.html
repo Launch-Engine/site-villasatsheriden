@@ -36,9 +36,7 @@
 <link rel="stylesheet" type="text/css" href="css/layout-utilities.min.1776824430.css" />
 <link rel="stylesheet" type="text/css" href="css/bootstrap-accessibility.min.1776824428.css" />
 <link rel="stylesheet" type="text/css" href="css/Miera_home.min.css" />
-<link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css" />
-<link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.4.0/mapbox.directions.css" />
-<link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="css/mapsanddirections.min.css" />
 <style type="text/css">
 .modal {
@@ -56,8 +54,7 @@
        visibility: hidden;
 }
 </style>
-	<script src="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js" type="text/javascript" ></script>
-<script src="https://api.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.4.0/mapbox.directions.js" type="text/javascript" ></script>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R0EEG6LQDJ"></script>
@@ -685,149 +682,17 @@ $("#" + container).html('');
         var latitude = "40.9429";
         var longitude = "-83.3976";
         var propgeo = longitude.toString() + ',' + latitude.toString();
-        var apikey = "MAPBOX_TOKEN_REDACTED";
         var propaddurl = '<a id="The Villas at Sheriden" href="http://maps.google.com?q=925+Sheriden+Drive+Carey+OH+43316" target="_blank">925 Sheriden Drive<br>Carey OH, 43316</a>';
-        var showpipe = "False";
-        showlocate();
-        function mapvendor() {
-            
-            var mapview = document.getElementById("map-view");
-           
-            if (isgooglemaps === "True") {               
-                initializegoogle();
-               
-                mapview.classList.remove("map-views");
-                mapview.classList.add("gmap-views")
-                var pipe = document.getElementById("pipe");
-                if (showpipe === "False") {
-                    pipe.classList.remove('pipe')
-                    pipe.classList.add('hidden')
-                    mapview.classList.remove("gmap-views")
-                    mapview.classList.add("gmap-views")
-                    mapview.classList.add("nosisprops")
-                }
-               
-            }
-            else {               
-                initializemapbox()
-                var pipe = document.getElementById("pipe");
-                if (showpipe === "False") {
-                    pipe.classList.remove('pipe')
-                    pipe.classList.add('hidden')
-                    mapview.classList.remove("map-views");
-                    mapview.classList.add("map-views")
-                    mapview.classList.add("nosisprops")
-                }
-            }
-        }
-        
-        mapvendor();
 
-     
+        var map = L.map('map').setView([latitude, longitude], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
 
-        function initializemapbox() {
-            var profile = document.getElementsByClassName("mapbox-directions-profile");
-            //profile.style.display = "none";
-            L.mapbox.accessToken = apikey;
-            var propname = "The Villas at Sheriden";
-           
-
-            var map = L.mapbox.map('map')
-                .setView([latitude, longitude], 13)
-                .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
-            mymap = map;
-       
-            
-            reinitializemapbox();
-            map.invalidateSize();
-          
-            $("#mapTabLink").on("shown", function () {
-                
-                reinitializemapbox();
-                mymap.invalidateSize();
-                $(function () {
-                    $("#leaflet-popup-content").height(144);
-                });
-            });
-            marker = L.mapbox.featureLayer({
-
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-
-                    coordinates: [
-                        longitude,
-                        latitude
-                    ]
-                },
-                properties: {
-                    title: propname,
-                    description: propaddurl,
-                    'marker-size': 'large',
-                    'marker-color': '#000000',
-                    'marker-symbol': 'building'
-                }
-            }).addTo(map);
-
-            marker.eachLayer(function (m) {
-                m.openPopup();
-            });
-
-            map.attributionControl.setPosition('bottomleft');
-
-            new L.Control.Zoom({ position: 'topleft' }).addTo(map);
-
-            var directions = L.mapbox.directions();
-
-            var directionsLayer = L.mapbox.directions.layer(directions)
-                .addTo(map);
-
-            var directionsInputControl = L.mapbox.directions.inputControl('inputs', directions)
-                .addTo(map);
-            directions.setDestination(propgeo);
-            
-
-            
-           
-            directions.query();
-            var directionsErrorsControl = L.mapbox.directions.errorsControl('errors', directions)
-                .addTo(map);
-
-            var directionsRoutesControl = L.mapbox.directions.routesControl('routes', directions)
-                .addTo(map);
-
-            var directionsInstructionsControl = L.mapbox.directions.instructionsControl('instructions', directions)
-                .addTo(map);
-           
-          
-           
-            function errorHandler(err) {
-                if (err.code == 1) {
-                    console.log("Error: Location Access is denied!");
-                }
-
-                else if (err.code == 2) {
-                    console.log("Error: Position is unavailable!");
-                }
-            }
-            function getLocation() {
-
-                if (navigator.geolocation) {
-                    // timeout at 60000 milliseconds (60 seconds)
-                    var options = { timeout: 60000 };
-                    navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-                }
-
-                else {
-                    console.log("Sorry, browser does not support geolocation!");
-                }
-            }
-        }
-
-        function reinitializemapbox() {
-            mymap._onResize();
-
-        }
+        L.marker([latitude, longitude]).addTo(map)
+            .bindPopup('<strong>The Villas at Sheriden</strong><br>' + propaddurl)
+            .openPopup();
         
      
       
