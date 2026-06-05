@@ -1,11 +1,8 @@
 [build]
   publish = "."
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Language = ["en"]}
+[functions]
+  directory = "netlify/functions"
 
 [[headers]]
   for = "/*"
