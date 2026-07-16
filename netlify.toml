@@ -4,6 +4,11 @@
 [functions]
   directory = "netlify/functions"
 
+[[redirects]]
+  from = "/brochure.html"
+  to = "/"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]

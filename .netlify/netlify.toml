@@ -1,14 +1,13 @@
+functionsDirectory = "/private/tmp/site-villasatsheriden/netlify/functions"
+functionsDirectoryOrigin = "config"
 headersOrigin = "config"
 redirectsOrigin = "config"
 plugins = []
 
-[functions]
-
-[functions."*"]
-
 [build]
 publish = "/private/tmp/site-villasatsheriden"
 publishOrigin = "config"
+functions = "/private/tmp/site-villasatsheriden/netlify/functions"
 
 [build.environment]
 
@@ -24,6 +23,10 @@ publishOrigin = "config"
 
 [build.services]
 
+[functions]
+
+[functions."*"]
+
 [[headers]]
 for = "/*"
 
@@ -32,14 +35,13 @@ X-Frame-Options = "DENY"
 X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200.0
+from = "/brochure.html"
+to = "/"
+status = 301.0
 force = false
 
 [redirects.query]
 
 [redirects.conditions]
-Language = ["en"]
 
 [redirects.headers]
