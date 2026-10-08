@@ -1,0 +1,8 @@
+# Every pull request: build the site, serve it, and open every page in a real
+# browser at phone and desktop width. The check lives in Launch-Engine/site-monitor
+# so every site repo shares one copy.
+name: Site check
+on: [pull_request]
+jobs:
+  check:
+    uses: Launch-Engine/site-monitor/.github/workflows/site-check.yml@main
