@@ -1,0 +1,15 @@
+# Every pull request: fail if a page is missing from sitemap.xml, or if
+# sitemap.xml lists something that is not a page. The fix is always in the
+# error message. See README.md "Adding a page".
+name: Sitemap
+on: [pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/sitemap.mjs --check
